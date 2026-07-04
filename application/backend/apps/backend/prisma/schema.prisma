@@ -1,0 +1,23 @@
+// This is your simplified, chat-centric Prisma schema for BuildWithAI
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Contradiction {
+  id                  String   @id @default(uuid())
+  problemDescription  String   // User's chat input message
+  improvingParamId    Int?     // Optional - populated only if a TRIZ lookup occurred
+  preservingParamId   Int?     // Optional - populated only if a TRIZ lookup occurred
+  improvingParamName  String?  // Optional
+  preservingParamName String?  // Optional
+  principles          Json?    // Optional - parsed TRIZ principles list: { id, name, description }[]
+  advice              String   // AI Agent response text
+  rating              Int?     // Feedback rating (1-5 stars)
+  createdAt           DateTime @default(now())
+}
