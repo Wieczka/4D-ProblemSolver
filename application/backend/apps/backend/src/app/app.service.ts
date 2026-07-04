@@ -83,12 +83,17 @@ export class AppService {
         );
 
         if (modelEvent && modelEvent.content?.parts?.[0]?.text) {
-          const rawText = modelEvent.content.parts[0].text.trim();
+          let rawText = modelEvent.content.parts[0].text.trim();
           agentAdvice = rawText;
 
           try {
-            // Attempt to parse JSON response generated via Pydantic output_schema
-            const jsonObj = JSON.parse(rawText);
+            // Strip markdown code fences if present
+            let cleanText = rawText;
+            if (cleanText.startsWith('```')) {
+              cleanText = cleanText.replace(/^```[a-zA-Z]*\n?/, '').replace(/\n?```$/, '').trim();
+            }
+            // Attempt to parse JSON response
+            const jsonObj = JSON.parse(cleanText);
 
             if (jsonObj && Array.isArray(jsonObj.triz_solutions)) {
               // Map the parsed principles dynamically
@@ -117,6 +122,21 @@ export class AppService {
               }
               if (jsonObj.decision_matrix) {
                 const dm = jsonObj.decision_matrix;
+                
+                // Calculate WSI and rank programmatically if they are missing/default
+                if (Array.isArray(dm.rows)) {
+                  for (const row of dm.rows) {
+                    if (row.wsi === undefined || row.wsi === 0 || row.wsi === null) {
+                      row.wsi = (0.60 * (row.score_a || 0)) + (0.40 * (row.score_b || 0));
+                    }
+                  }
+                  // Sort descending by wsi and assign ranks
+                  dm.rows.sort((a: any, b: any) => (b.wsi || 0) - (a.wsi || 0));
+                  dm.rows.forEach((row: any, idx: number) => {
+                    row.rank = idx + 1;
+                  });
+                }
+
                 formattedMarkdown += `## 📊 Dynamic Decision Matrix\n\n`;
                 formattedMarkdown += `**Competing Parameters Identified**:\n`;
                 formattedMarkdown += `*   **Parameter A (Goal)**: ${dm.parameter_a}\n`;

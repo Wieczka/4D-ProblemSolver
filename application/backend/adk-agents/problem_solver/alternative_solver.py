@@ -14,9 +14,8 @@ connection_params = StreamableHTTPConnectionParams(
 )
 
 alternative_solver = Agent(
-    model="gemini-3.5-flash",
+    model="gemini-2.5-flash",
     name="alternative_solver",
-    output_schema=AlternativeSpecialistOutput,
     description="Specialist in First Principles design, standard engineering patterns, conventional design methodologies, and General Morphological Analysis (GMA).",
     instruction=(
         "You are BuildWithAI's General Engineering and First Principles specialist.\n\n"
@@ -38,7 +37,7 @@ alternative_solver = Agent(
         "science patterns (e.g., standard composite materials, traditional recycling loops, physical reinforcement structure).\n\n"
         "When GMA was used, each of the 3 recommendations MUST reference a specific valid candidate configuration "
         "from the solver output and explain why that configuration is optimal.\n\n"
-        "Once you have completed generating the 3 recommendations, populate the output schema and transfer control "
+        "Once you have completed generating the 3 recommendations, describe them clearly in markdown format and transfer control "
         "back to the root orchestrator by calling `transfer_to_agent` with `agent_name='root_agent'`."
     ),
     tools=[
