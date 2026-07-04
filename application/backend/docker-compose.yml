@@ -17,7 +17,7 @@ services:
 
   mcp-server:
     build:
-      context: ./mcp-server
+      context: ./triz-mcp-server
       dockerfile: Dockerfile
     environment:
       MCP_HOST: 0.0.0.0
