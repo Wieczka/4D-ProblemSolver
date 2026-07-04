@@ -8,12 +8,22 @@ steps:
     args: [
       'build',
       '-t', '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REGISTRY_NAME}/triz-mcp-server:latest',
-      './mcp-server'
+      './triz-mcp-server'
     ]
     env: ['DOCKER_BUILDKIT=1']
     id: 'build-mcp-server'
 
-  # B. ADK Agent
+  # B. GMA MCP Server
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t', '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REGISTRY_NAME}/gma-mcp-server:latest',
+      './gma-mcp-server'
+    ]
+    env: ['DOCKER_BUILDKIT=1']
+    id: 'build-gma-mcp-server'
+
+  # C. ADK Agent
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
@@ -23,7 +33,7 @@ steps:
     env: ['DOCKER_BUILDKIT=1']
     id: 'build-adk-agent'
 
-  # C. NestJS Backend
+  # D. NestJS Backend
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
@@ -40,6 +50,10 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', '--all-tags', '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REGISTRY_NAME}/triz-mcp-server']
     id: 'push-mcp-server'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', '--all-tags', '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REGISTRY_NAME}/gma-mcp-server']
+    id: 'push-gma-mcp-server'
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', '--all-tags', '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REGISTRY_NAME}/triz-adk-agent']

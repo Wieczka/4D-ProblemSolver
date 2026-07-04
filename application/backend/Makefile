@@ -14,10 +14,11 @@ DB_NAME       ?= buildwithai
 # Full Image Paths
 REGISTRY_URL   = $(REGION)-docker.pkg.dev/$(GCP_PROJECT)/$(REGISTRY_NAME)
 MCP_IMAGE      = $(REGISTRY_URL)/triz-mcp-server:latest
+GMA_IMAGE      = $(REGISTRY_URL)/gma-mcp-server:latest
 AGENT_IMAGE    = $(REGISTRY_URL)/triz-adk-agent:latest
 BACKEND_IMAGE  = $(REGISTRY_URL)/buildwithai-backend:latest
 
-.PHONY: help install-tools install-deps gcp-init gcp-enable-apis gcp-create-registry gcp-create-db build-all deploy-mcp deploy-agent deploy-backend show-urls
+.PHONY: help install-tools install-deps gcp-init gcp-enable-apis gcp-create-registry gcp-create-db build-all deploy-mcp deploy-gma deploy-agent deploy-backend show-urls
 
 help:
 	@echo "=========================================================================="
@@ -66,8 +67,9 @@ install-tools:
 
 # Install Node & Python dependencies
 install-deps:
-	@echo "Installing python packages for mcp-server and adk-agents..."
-	cd mcp-server && uv sync
+	@echo "Installing python packages for mcp-servers and adk-agents..."
+	cd triz-mcp-server && uv sync
+	cd gma-mcp-server && uv sync
 	cd adk-agents && uv sync
 	@echo "Installing global monorepo NPM dependencies..."
 	npm install --legacy-peer-deps
@@ -124,10 +126,24 @@ deploy-mcp:
 		--min-instances=1 \
 		--set-env-vars=MCP_HOST=0.0.0.0,MCP_PORT=8080
 
+# Deploy GMA MCP Server (Private internal microservice)
+deploy-gma:
+	gcloud run deploy gma-mcp-server \
+		--image=$(GMA_IMAGE) \
+		--region=$(REGION) \
+		--platform=managed \
+		--ingress=all \
+		--allow-unauthenticated \
+		--memory=2Gi \
+		--min-instances=1 \
+		--set-env-vars=MCP_HOST=0.0.0.0,MCP_PORT=8080
+
 # Deploy Google ADK Agent (Private internal workspace)
 deploy-agent:
 	@echo "Fetching private MCP Server URL..."
 	$(eval MCP_URL := $(shell gcloud run services describe triz-mcp-server --region=$(REGION) --format='value(status.url)'))
+	@echo "Fetching private GMA MCP Server URL..."
+	$(eval GMA_URL := $(shell gcloud run services describe gma-mcp-server --region=$(REGION) --format='value(status.url)'))
 	gcloud run deploy triz-adk-agent \
 		--image=$(AGENT_IMAGE) \
 		--region=$(REGION) \
@@ -136,7 +152,7 @@ deploy-agent:
 		--allow-unauthenticated \
 		--memory=2Gi \
 		--min-instances=1 \
-		--set-env-vars=MCP_SERVER_URL=$(MCP_URL)/mcp,GOOGLE_GENAI_USE_VERTEXAI=1,GOOGLE_CLOUD_PROJECT=$(GCP_PROJECT),GCP_PROJECT=$(GCP_PROJECT)
+		--set-env-vars=MCP_SERVER_URL=$(MCP_URL)/mcp,GMA_MCP_SERVER_URL=$(GMA_URL)/mcp,GOOGLE_GENAI_USE_VERTEXAI=1,GOOGLE_CLOUD_PROJECT=$(GCP_PROJECT),GCP_PROJECT=$(GCP_PROJECT)
 
 # Deploy NestJS Backend (Publicly accessible api service)
 deploy-backend:
@@ -164,6 +180,9 @@ show-urls:
 	@echo ""
 	@echo "TRIZ MCP Server (Private Tools):"
 	@gcloud run services describe triz-mcp-server --region=$(REGION) --format='value(status.url)'
+	@echo ""
+	@echo "GMA MCP Server (Private Tools):"
+	@gcloud run services describe gma-mcp-server --region=$(REGION) --format='value(status.url)'
 	@echo "=========================================================================="
 
 # Tear down all deployed resources to avoid charges
@@ -172,6 +191,7 @@ gcp-cleanup:
 	-gcloud run services delete buildwithai-backend --region=$(REGION) --quiet
 	-gcloud run services delete triz-adk-agent --region=$(REGION) --quiet
 	-gcloud run services delete triz-mcp-server --region=$(REGION) --quiet
+	-gcloud run services delete gma-mcp-server --region=$(REGION) --quiet
 	@echo "Deleting Cloud SQL Instance $(DB_INSTANCE)..."
 	-gcloud sql instances delete $(DB_INSTANCE) --quiet
 	@echo "Deleting Artifact Registry $(REGISTRY_NAME)..."
