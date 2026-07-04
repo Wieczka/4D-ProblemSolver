@@ -2,7 +2,7 @@
   <div class="report-toolbar">
     <div>
       <div class="eyebrow">Step 02 · Output</div>
-      <h1 id="step3-heading" class="h1">Investor report</h1>
+      <h2 id="step3-heading" class="h1">Investor report</h2>
     </div>
     <div class="actions">
       <button type="button" class="btn btn--ghost" (click)="back()">← Back</button>
@@ -18,17 +18,17 @@
   <article class="report-card" *ngIf="!generating()">
     <header class="report-card__header">
       <div class="eyebrow eyebrow--muted">R&amp;D Investment Brief</div>
-      <h2 class="h2">{{ r.conceptName }} — biodegradable protective packaging</h2>
+      <h3 class="h2">{{ r.conceptName }} — biodegradable protective packaging</h3>
       <div class="meta">Prepared from assigned inventive problem · Contradiction {{ r.contradiction.improving.code }} vs {{ r.contradiction.worsening.code }}</div>
     </header>
 
     <section class="report-section">
-      <h3>Problem</h3>
+      <h4>Problem</h4>
       <p>{{ r.problemText }}</p>
     </section>
 
     <section class="report-section">
-      <h3>Technical contradiction</h3>
+      <h4>Technical contradiction</h4>
       <p>
         Improving <strong>{{ r.contradiction.improving.name | lowercase }}</strong> ({{ r.contradiction.improving.code }}) —
         {{ r.contradiction.improving.description }} — currently worsens
@@ -38,7 +38,7 @@
     </section>
 
     <section class="report-section">
-      <h3>Proposed concept</h3>
+      <h4>Proposed concept</h4>
       <p>{{ r.conceptDescription }}</p>
       <p>
         This applies principles
@@ -48,7 +48,7 @@
     </section>
 
     <section class="report-section">
-      <h3>Performance targets</h3>
+      <h4>Performance targets</h4>
       <p class="hint">Enter your team's lab targets — they'll appear in the report below.</p>
       <div class="targets-grid">
         <div>
@@ -71,7 +71,7 @@
     </section>
 
     <section class="report-section">
-      <h3>Next steps for R&amp;D validation</h3>
+      <h4>Next steps for R&amp;D validation</h4>
       <ul>
         <li *ngFor="let step of r.nextSteps">{{ step }}</li>
       </ul>
