@@ -1,0 +1,36 @@
+<div class="shell">
+  <header class="header">
+    <div class="header__inner">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">RD</div>
+        <div>
+          <div class="eyebrow">R&amp;D / Inventive Problem Solving</div>
+          <div class="title">Packaging Contradiction Tool</div>
+        </div>
+      </div>
+
+      <nav class="stepper" aria-label="Progress">
+        <ol>
+          <li *ngFor="let s of steps; let last = last">
+            <button
+              type="button"
+              [attr.aria-current]="step() === s.num ? 'step' : null"
+              [disabled]="isDisabled(s.num)"
+              (click)="goToStep(s.num)">
+              <span [ngClass]="badgeClass(s.num)">{{ '0' + s.num }}</span>
+              <span [ngClass]="labelClass(s.num)">{{ s.label }}</span>
+            </button>
+            <div class="connector" *ngIf="!last" aria-hidden="true"></div>
+          </li>
+        </ol>
+      </nav>
+    </div>
+  </header>
+
+  <div class="sr-only" role="status" aria-live="polite">{{ liveMessage() }}</div>
+
+  <main id="main-content" class="main">
+    <app-problem-step *ngIf="step() === 1"></app-problem-step>
+    <app-report-step *ngIf="step() === 2"></app-report-step>
+  </main>
+</div>

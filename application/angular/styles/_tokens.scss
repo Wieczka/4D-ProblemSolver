@@ -1,0 +1,81 @@
+// Design tokens — generated from design-tokens.json
+// Mirrors Design Tokens.dc.html. Keep both in sync by hand until a build script wires them together.
+
+:root {
+  // ---- Primitives: green (brand / recycling) ----
+  --green-50:  #EAF3EC;
+  --green-100: #CFE4D4;
+  --green-200: #A8CDB2;
+  --green-300: #7FB68C;
+  --green-400: #5A9E68;
+  --green-500: #3C8C4A;
+  --green-600: #2F7A3D;
+  --green-700: #256330;
+  --green-800: #1B4C24;
+  --green-900: #123419;
+
+  // ---- Primitives: paper / kraft (biodegradable neutral) ----
+  --paper-50:  #FBF8F2;
+  --paper-100: #F5EEE0;
+  --paper-200: #E8DCC8;
+  --paper-300: #D8C6A8;
+  --paper-400: #C4AC86;
+  --paper-500: #AE9066;
+  --paper-600: #8F7450;
+  --paper-700: #6E593D;
+  --paper-800: #4C3D2A;
+  --paper-900: #2C2318;
+
+  // ---- Primitives: ink (text) ----
+  --ink-900: #211C14;
+  --ink-700: #4A4335;
+  --ink-500: #756B58;
+  --ink-300: #A79C86;
+
+  // ---- Status ----
+  --status-warning: #B7791F;
+  --status-danger:  #B3402A;
+
+  // ---- Semantic ----
+  --color-bg-canvas: var(--paper-50);
+  --color-bg-surface: #FFFFFF;
+  --color-bg-inverse: var(--green-900);
+  --color-text-primary: var(--ink-900);
+  --color-text-secondary: var(--ink-700);
+  --color-text-on-brand: var(--paper-50);
+  --color-border-default: var(--paper-300);
+  --color-border-strong: var(--paper-500);
+  --color-brand-primary: var(--green-600);
+  --color-brand-primary-hover: var(--green-700);
+  --color-brand-primary-active: var(--green-800);
+  --color-focus-ring: var(--ink-900);
+
+  // ---- Typography ----
+  --font-body: 'Public Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --text-display-size: 48px; --text-display-line: 1.1;  --text-display-weight: 700;
+  --text-h1-size: 36px;      --text-h1-line: 1.15;       --text-h1-weight: 700;
+  --text-h2-size: 28px;      --text-h2-line: 1.2;        --text-h2-weight: 700;
+  --text-h3-size: 22px;      --text-h3-line: 1.3;        --text-h3-weight: 600;
+  --text-body-lg-size: 18px; --text-body-lg-line: 1.55;  --text-body-lg-weight: 400;
+  --text-body-size: 16px;    --text-body-line: 1.6;      --text-body-weight: 400;
+  --text-body-sm-size: 14px; --text-body-sm-line: 1.5;   --text-body-sm-weight: 400;
+  --text-label-size: 13px;   --text-label-weight: 600;   --text-label-tracking: 0.06em;
+
+  // ---- Spacing (4px base) ----
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px; --space-9: 96px;
+
+  // ---- Radius ----
+  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-xl: 24px; --radius-full: 999px;
+
+  // ---- Shadow (warm ink-tinted, never pure black) ----
+  --shadow-sm: 0 1px 2px rgba(33,28,20,0.08);
+  --shadow-md: 0 4px 12px rgba(33,28,20,0.10);
+  --shadow-lg: 0 12px 32px rgba(33,28,20,0.14);
+
+  // ---- Focus ----
+  --focus-ring: 3px solid var(--color-focus-ring);
+  --focus-ring-offset: 2px;
+}

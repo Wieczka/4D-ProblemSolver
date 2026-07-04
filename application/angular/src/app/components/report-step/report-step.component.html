@@ -1,0 +1,80 @@
+<section aria-labelledby="step3-heading" *ngIf="report() as r">
+  <div class="report-toolbar">
+    <div>
+      <div class="eyebrow">Step 02 · Output</div>
+      <h1 id="step3-heading" class="h1">Investor report</h1>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn btn--ghost" (click)="back()">← Back</button>
+      <button type="button" class="btn btn--dark" [disabled]="generating()" (click)="print()">Print / Save as PDF</button>
+    </div>
+  </div>
+
+  <div class="generating" *ngIf="generating()" role="status" aria-live="polite">
+    <span class="spinner" aria-hidden="true"></span>
+    Generating report…
+  </div>
+
+  <article class="report-card" *ngIf="!generating()">
+    <header class="report-card__header">
+      <div class="eyebrow eyebrow--muted">R&amp;D Investment Brief</div>
+      <h2 class="h2">{{ r.conceptName }} — biodegradable protective packaging</h2>
+      <div class="meta">Prepared from assigned inventive problem · Contradiction {{ r.contradiction.improving.code }} vs {{ r.contradiction.worsening.code }}</div>
+    </header>
+
+    <section class="report-section">
+      <h3>Problem</h3>
+      <p>{{ r.problemText }}</p>
+    </section>
+
+    <section class="report-section">
+      <h3>Technical contradiction</h3>
+      <p>
+        Improving <strong>{{ r.contradiction.improving.name | lowercase }}</strong> ({{ r.contradiction.improving.code }}) —
+        {{ r.contradiction.improving.description }} — currently worsens
+        <strong>{{ r.contradiction.worsening.name | lowercase }}</strong> ({{ r.contradiction.worsening.code }}):
+        {{ r.contradiction.worsening.description }}
+      </p>
+    </section>
+
+    <section class="report-section">
+      <h3>Proposed concept</h3>
+      <p>{{ r.conceptDescription }}</p>
+      <p>
+        This applies principles
+        <strong *ngFor="let p of r.contradiction.principles; let last = last">{{ p.number }} ({{ p.name | lowercase }}){{ last ? '' : ', ' }}</strong>
+        from the reformulation above.
+      </p>
+    </section>
+
+    <section class="report-section">
+      <h3>Performance targets</h3>
+      <p class="hint">Enter your team's lab targets — they'll appear in the report below.</p>
+      <div class="targets-grid">
+        <div>
+          <label for="target-compost">Home-compost time (days)</label>
+          <input id="target-compost" type="number" min="0" placeholder="e.g. 90"
+                 [ngModel]="targets().compostDays" (ngModelChange)="onCompostChange($event)"/>
+        </div>
+        <div>
+          <label for="target-bio">Bio-based content (%)</label>
+          <input id="target-bio" type="number" min="0" max="100" placeholder="e.g. 95"
+                 [ngModel]="targets().bioContentPct" (ngModelChange)="onBioChange($event)"/>
+        </div>
+        <div>
+          <label for="target-cost">Cost delta vs. current (%)</label>
+          <input id="target-cost" type="number" placeholder="e.g. +8"
+                 [ngModel]="targets().costDeltaPct" (ngModelChange)="onCostChange($event)"/>
+        </div>
+      </div>
+      <div class="target-summary" *ngIf="targetSummary">{{ targetSummary }}</div>
+    </section>
+
+    <section class="report-section">
+      <h3>Next steps for R&amp;D validation</h3>
+      <ul>
+        <li *ngFor="let step of r.nextSteps">{{ step }}</li>
+      </ul>
+    </section>
+  </article>
+</section>

@@ -1,0 +1,42 @@
+@use '../../../../styles/ui' as ui;
+@use '../../../../styles/tokens' as *;
+
+.eyebrow { @include ui.eyebrow; margin-bottom: var(--space-3); }
+.h1 { @include ui.h1; margin-bottom: var(--space-4); }
+
+.lede {
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-line);
+  color: var(--color-text-secondary);
+  max-width: 640px;
+  margin: 0 0 var(--space-6);
+}
+
+.field-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: var(--space-2);
+}
+
+.textarea {
+  @include ui.field;
+  line-height: 1.6;
+  padding: var(--space-4);
+  resize: vertical;
+}
+
+.hint { font-size: 13px; color: var(--color-text-secondary); margin-top: var(--space-2); }
+
+.actions { margin-top: var(--space-6); display: flex; gap: var(--space-4); }
+
+.btn {
+  @include ui.btn-base;
+
+  &--primary {
+    background: var(--color-brand-primary);
+    color: var(--color-text-on-brand);
+    box-shadow: var(--shadow-md);
+    &:hover:not(:disabled) { background: var(--color-brand-primary-hover); }
+  }
+}

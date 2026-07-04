@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; background: #E1D4B8; }
+    ::selection { background: #A8CDB2; }
+  </style>
+</helmet>
+
+<div style="font-family: 'Public Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; color: #211C14; min-height: 100vh; background-color: #E1D4B8; background-image: linear-gradient(rgba(251,248,242,0.62), rgba(251,248,242,0.62)), url('assets/paper-texture.avif'); background-size: cover; background-position: top center; background-repeat: repeat-y; background-attachment: local;">
+
+  <a href="#main-content" style="position:absolute; left:-9999px; top:0; background:#123419; color:#FBF8F2; padding:12px 20px; border-radius:0 0 8px 0; font-weight:600; z-index:100;" style-focus="left:0;">Skip to main content</a>
+
+  <header style="background:#256330; color:#FBF8F2; padding:18px 48px;">
+    <div style="max-width:1080px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;">
+
+      <div style="display:flex; align-items:center; gap:14px;">
+        <div style="width:40px; height:40px; border-radius:10px; background:#3C8C4A; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono', monospace; font-weight:600; font-size:13px; color:#FBF8F2; flex-shrink:0;" aria-hidden="true">RD</div>
+        <div>
+          <div style="font-family:'JetBrains Mono', monospace; font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#A8CDB2;">R&amp;D / Inventive Problem Solving</div>
+          <div style="font-size:17px; font-weight:700; color:#FBF8F2;">Packaging Contradiction Tool</div>
+        </div>
+      </div>
+
+      <nav aria-label="Progress">
+        <ol style="margin:0; padding:0; list-style:none; display:flex; align-items:center; gap:0;">
+
+          <li style="display:flex; align-items:center;">
+            <button type="button" onClick="{{ goToStep1 }}" aria-current="{{ step1Current }}" style="display:flex; align-items:center; gap:10px; background:none; border:none; cursor:pointer; padding:8px; border-radius:8px; font-family:'Public Sans',sans-serif;" style-focus="outline:3px solid #FBF8F2; outline-offset:2px;">
+              <span style="width:32px; height:32px; border-radius:999px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600; flex-shrink:0; background:{{ step1BadgeBg }}; color:{{ step1BadgeColor }}; border:2px solid {{ step1BadgeBorder }};">01</span>
+              <span style="font-size:15px; font-weight:{{ step1Weight }}; color:{{ step1TextColor }};">Problem</span>
+            </button>
+            <div style="width:36px; height:2px; background:rgba(251,248,242,0.35); margin:0 8px;" aria-hidden="true"></div>
+          </li>
+
+          <li style="display:flex; align-items:center;">
+            <button type="button" onClick="{{ goToStep3 }}" disabled="{{ step3Disabled }}" aria-current="{{ step3Current }}" style="display:flex; align-items:center; gap:10px; background:none; border:none; cursor:pointer; padding:8px; border-radius:8px; font-family:'Public Sans',sans-serif;" style-focus="outline:3px solid #FBF8F2; outline-offset:2px;">
+              <span style="width:32px; height:32px; border-radius:999px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600; flex-shrink:0; background:{{ step3BadgeBg }}; color:{{ step3BadgeColor }}; border:2px solid {{ step3BadgeBorder }};">02</span>
+              <span style="font-size:15px; font-weight:{{ step3Weight }}; color:{{ step3TextColor }};">Report</span>
+            </button>
+          </li>
+
+        </ol>
+      </nav>
+
+    </div>
+  </header>
+
+  <div aria-live="polite" role="status" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);">{{ liveMessage }}</div>
+
+  <main id="main-content" style="max-width:1080px; margin:0 auto; padding:48px 48px 96px;">
+
+    <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+      <section aria-labelledby="step1-heading">
+        <div style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#256330; margin-bottom:10px;">Step 01 · Assigned inventive problem</div>
+        <h1 id="step1-heading" style="font-size:34px; font-weight:800; line-height:1.15; margin:0 0 16px; letter-spacing:-0.01em;">Describe the problem</h1>
+        <p style="font-size:17px; line-height:1.6; color:#4A4335; max-width:640px; margin:0 0 32px;">Edit the brief below, or use it as given. The tool reformulates it as a TRIZ technical contradiction, then drafts an investor-ready report.</p>
+
+        <label for="problem-input" style="display:block; font-size:14px; font-weight:600; margin-bottom:8px;">Problem statement</label>
+        <textarea id="problem-input" value="{{ problemText }}" onChange="{{ onProblemChange }}" rows="8" style="width:100%; box-sizing:border-box; font-family:'Public Sans',sans-serif; font-size:16px; line-height:1.6; color:#211C14; background:#FFFFFF; border:1px solid #D8C6A8; border-radius:12px; padding:18px; resize:vertical;" style-focus="outline:3px solid #211C14; outline-offset:2px; border-color:#256330;"></textarea>
+        <div style="font-size:13px; color:#756B58; margin-top:8px;">Case study: protective packaging that must survive shipping and handling, then not persist as waste.</div>
+
+        <div style="margin-top:32px; display:flex; gap:14px;">
+          <button type="button" onClick="{{ goToStep3 }}" disabled="{{ step3Disabled }}" style="background:#2F7A3D; color:#FBF8F2; border:none; border-radius:10px; padding:14px 24px; font-size:16px; font-weight:600; cursor:pointer; font-family:'Public Sans',sans-serif; box-shadow:0 4px 12px rgba(33,28,20,0.10);" style-hover="background:#256330;" style-focus="outline:3px solid #211C14; outline-offset:2px;">Generate investor report →</button>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+      <section aria-labelledby="step3-heading">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:24px;">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#256330; margin-bottom:10px;">Step 02 · Output</div>
+            <h1 id="step3-heading" style="font-size:34px; font-weight:800; line-height:1.15; margin:0; letter-spacing:-0.01em;">Investor report</h1>
+          </div>
+          <div style="display:flex; gap:10px; flex-shrink:0;">
+            <button type="button" onClick="{{ goToStep1 }}" style="background:#FFFFFF; color:#211C14; border:1px solid #AE9066; border-radius:10px; padding:12px 18px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Public Sans',sans-serif; box-shadow:0 1px 2px rgba(33,28,20,0.08);" style-hover="background:#F5EEE0;" style-focus="outline:3px solid #211C14; outline-offset:2px;">← Back</button>
+            <button type="button" onClick="{{ printReport }}" disabled="{{ generating }}" style="background:#123419; color:#FBF8F2; border:none; border-radius:10px; padding:12px 20px; font-size:14px; font-weight:600; cursor:pointer; font-family:'Public Sans',sans-serif;" style-hover="background:#0d2513;" style-focus="outline:3px solid #211C14; outline-offset:2px;">Print / Save as PDF</button>
+          </div>
+        </div>
+
+        <sc-if value="{{ generating }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; align-items:center; gap:14px; background:#FFFFFF; border:1px solid #E8DCC8; border-radius:12px; padding:28px; font-size:16px; color:#4A4335;">
+            <span style="width:20px; height:20px; border-radius:999px; border:3px solid #E8DCC8; border-top-color:#2F7A3D; display:inline-block; animation:om-spin 0.8s linear infinite;" aria-hidden="true"></span>
+            Generating report…
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showReport }}" hint-placeholder-val="{{ false }}">
+          <article style="background:#FFFFFF; border:1px solid #E8DCC8; border-radius:16px; padding:48px; box-shadow:0 12px 32px rgba(33,28,20,0.08);">
+
+            <header style="border-bottom:2px solid #123419; padding-bottom:20px; margin-bottom:28px;">
+              <div style="font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#756B58; margin-bottom:8px;">R&amp;D Investment Brief</div>
+              <h2 style="font-size:28px; font-weight:800; margin:0 0 6px; letter-spacing:-0.01em;">ReGrow Pack — biodegradable protective packaging</h2>
+              <div style="font-size:14px; color:#756B58;">Prepared from assigned inventive problem · Contradiction TRIZ-14 vs TRIZ-31</div>
+            </header>
+
+            <section style="margin-bottom:28px;">
+              <h3 style="font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#256330; margin:0 0 10px;">Problem</h3>
+              <p style="font-size:16px; line-height:1.65; color:#211C14; margin:0;">{{ problemText }}</p>
+            </section>
+
+            <section style="margin-bottom:28px;">
+              <h3 style="font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#256330; margin:0 0 10px;">Technical contradiction</h3>
+              <p style="font-size:16px; line-height:1.65; color:#211C14; margin:0;">Improving <strong>strength</strong> (TRIZ-14) — the durability and moisture resistance packaging needs in transit — currently worsens <strong>object-generated harmful factors</strong> (TRIZ-31): the composite layers responsible for that toughness persist as waste after use.</p>
+            </section>
+
+            <section style="margin-bottom:28px;">
+              <h3 style="font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#256330; margin:0 0 10px;">Proposed concept</h3>
+              <p style="font-size:16px; line-height:1.65; color:#211C14; margin:0 0 12px;">A molded shell of pressed agricultural fibre (straw / husk pulp), bound by grown mycelium and sealed with a thin chitosan-nanocrystal moisture barrier. Rigid and water-resistant while dry and in transit — satisfying TRIZ-14 — then fully home-compostable or re-pulpable into new packaging stock once wetted, resolving TRIZ-31 without a plastic-film liner.</p>
+              <p style="font-size:16px; line-height:1.65; color:#211C14; margin:0;">This applies principles <strong>40 (composite materials)</strong>, <strong>35 (parameter changes)</strong> and <strong>10 (preliminary action)</strong> from the prior step: the barrier is engineered to hold during shipping and release on contact with moisture or industrial compost heat, rather than requiring a separate disposal step.</p>
+            </section>
+
+            <section style="margin-bottom:28px;">
+              <h3 style="font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#256330; margin:0 0 14px;">Performance targets</h3>
+              <p style="font-size:13px; color:#756B58; margin:0 0 14px;">Enter your team's lab targets — they'll appear in the report below.</p>
+              <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:16px;">
+                <div>
+                  <label for="target-compost" style="display:block; font-size:13px; font-weight:600; margin-bottom:6px;">Home-compost time (days)</label>
+                  <input id="target-compost" type="number" min="0" placeholder="e.g. 90" value="{{ compostDays }}" onChange="{{ onCompostChange }}" style="width:100%; box-sizing:border-box; font-family:'Public Sans',sans-serif; font-size:15px; padding:10px 12px; border:1px solid #D8C6A8; border-radius:8px;" style-focus="outline:3px solid #211C14; outline-offset:2px; border-color:#256330;"/>
+                </div>
+                <div>
+                  <label for="target-bio" style="display:block; font-size:13px; font-weight:600; margin-bottom:6px;">Bio-based content (%)</label>
+                  <input id="target-bio" type="number" min="0" max="100" placeholder="e.g. 95" value="{{ bioContent }}" onChange="{{ onBioChange }}" style="width:100%; box-sizing:border-box; font-family:'Public Sans',sans-serif; font-size:15px; padding:10px 12px; border:1px solid #D8C6A8; border-radius:8px;" style-focus="outline:3px solid #211C14; outline-offset:2px; border-color:#256330;"/>
+                </div>
+                <div>
+                  <label for="target-cost" style="display:block; font-size:13px; font-weight:600; margin-bottom:6px;">Cost delta vs. current (%)</label>
+                  <input id="target-cost" type="number" placeholder="e.g. +8" value="{{ costDelta }}" onChange="{{ onCostChange }}" style="width:100%; box-sizing:border-box; font-family:'Public Sans',sans-serif; font-size:15px; padding:10px 12px; border:1px solid #D8C6A8; border-radius:8px;" style-focus="outline:3px solid #211C14; outline-offset:2px; border-color:#256330;"/>
+                </div>
+              </div>
+              <sc-if value="{{ hasAnyTarget }}" hint-placeholder-val="{{ false }}">
+                <div style="background:#EAF3EC; border-radius:10px; padding:16px 20px; font-size:15px; line-height:1.6; color:#123419;">{{ targetSummary }}</div>
+              </sc-if>
+            </section>
+
+            <section>
+              <h3 style="font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:#256330; margin:0 0 10px;">Next steps for R&amp;D validation</h3>
+              <ul style="margin:0; padding-left:20px; font-size:16px; line-height:1.7; color:#211C14;">
+                <li>Bench-test moisture barrier hold time under transit-representative humidity and drop cycles.</li>
+                <li>Confirm home-compost and industrial-compost breakdown against target above.</li>
+                <li>Pilot with one SKU to compare unit cost and damage-rate against current packaging.</li>
+              </ul>
+            </section>
+
+          </article>
+        </sc-if>
+      </section>
+    </sc-if>
+
+  </main>
+
+  <style>
+    @keyframes om-spin { to { transform: rotate(360deg); } }
+  </style>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    step: 1,
+    problemText: "Packaging exists to protect products from damage during shipping, handling, and storage, which typically means using tough, moisture-resistant materials, often made of multi-layered composites or coatings. Once a product reaches its destination, that packaging becomes waste, and much of it is slow to biodegrade or difficult to recycle cleanly.",
+    generating: false,
+    showReport: false,
+    liveMessage: "",
+    compostDays: "",
+    bioContent: "",
+    costDelta: ""
+  };
+
+  onProblemChange = (e) => this.setState({ problemText: e.target.value });
+  onCompostChange = (e) => this.setState({ compostDays: e.target.value });
+  onBioChange = (e) => this.setState({ bioContent: e.target.value });
+  onCostChange = (e) => this.setState({ costDelta: e.target.value });
+
+  goToStep1 = () => this.setState({ step: 1 });
+
+  goToStep3 = () => {
+    if (!this.state.problemText.trim()) return;
+    this.setState({ step: 3, generating: true, showReport: false, liveMessage: "Generating investor report…" });
+    setTimeout(() => {
+      this.setState({ generating: false, showReport: true, liveMessage: "Report ready." });
+    }, 900);
+  };
+
+  printReport = () => window.print();
+
+  badgeStyle(stepNum) {
+    const { step } = this.state;
+    if (stepNum < step) return { bg: "#1B4C24", color: "#A8CDB2", border: "rgba(251,248,242,0.5)" };
+    if (stepNum === step) return { bg: "#FBF8F2", color: "#1B4C24", border: "#FBF8F2" };
+    return { bg: "transparent", color: "rgba(251,248,242,0.55)", border: "rgba(251,248,242,0.35)" };
+  }
+
+  renderVals() {
+    const { step, problemText, generating, showReport, liveMessage, compostDays, bioContent, costDelta } = this.state;
+    const b1 = this.badgeStyle(1);
+    const b3 = this.badgeStyle(3);
+
+    const targetParts = [];
+    if (compostDays) targetParts.push(`compost within ${compostDays} days`);
+    if (bioContent) targetParts.push(`${bioContent}% bio-based content`);
+    if (costDelta) targetParts.push(`a ${costDelta}% cost delta vs. current packaging`);
+    const hasAnyTarget = targetParts.length > 0;
+    const targetSummary = hasAnyTarget
+      ? `Target: ${targetParts.join(", ")}.`
+      : "";
+
+    return {
+      step1Current: step === 1 ? "step" : undefined,
+      step3Current: step === 3 ? "step" : undefined,
+      step3Disabled: !problemText.trim() && step !== 3,
+      step1BadgeBg: b1.bg, step1BadgeColor: b1.color, step1BadgeBorder: b1.border,
+      step3BadgeBg: b3.bg, step3BadgeColor: b3.color, step3BadgeBorder: b3.border,
+      step1Weight: step === 1 ? 700 : 500,
+      step3Weight: step === 3 ? 700 : 500,
+      step1TextColor: step === 1 ? "#FBF8F2" : "rgba(251,248,242,0.7)",
+      step3TextColor: step === 3 ? "#FBF8F2" : (problemText.trim() ? "rgba(251,248,242,0.7)" : "rgba(251,248,242,0.45)"),
+      isStep1: step === 1,
+      isStep3: step === 3,
+      problemText,
+      onProblemChange: this.onProblemChange,
+      goToStep1: this.goToStep1,
+      goToStep3: this.goToStep3,
+      printReport: this.printReport,
+      generating,
+      showReport,
+      liveMessage,
+      compostDays, onCompostChange: this.onCompostChange,
+      bioContent, onBioChange: this.onBioChange,
+      costDelta, onCostChange: this.onCostChange,
+      hasAnyTarget,
+      targetSummary
+    };
+  }
+}
+
+</script>
+</body>
+</html>

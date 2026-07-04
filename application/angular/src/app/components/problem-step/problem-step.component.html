@@ -1,0 +1,20 @@
+<section aria-labelledby="step1-heading">
+  <div class="eyebrow">Step 01 · Assigned inventive problem</div>
+  <h1 id="step1-heading" class="h1">Describe the problem</h1>
+  <p class="lede">Edit the brief below, or use it as given. The tool reformulates it as a TRIZ technical contradiction, then drafts an investor-ready report.</p>
+
+  <label for="problem-input" class="field-label">Problem statement</label>
+  <textarea
+    id="problem-input"
+    rows="8"
+    class="textarea"
+    [ngModel]="problemText()"
+    (ngModelChange)="onInput($event)"></textarea>
+  <div class="hint">Case study: protective packaging that must survive shipping and handling, then not persist as waste.</div>
+
+  <div class="actions">
+    <button type="button" class="btn btn--primary" [disabled]="!canAdvance()" (click)="next()">
+      Reformulate as technical contradiction →
+    </button>
+  </div>
+</section>
