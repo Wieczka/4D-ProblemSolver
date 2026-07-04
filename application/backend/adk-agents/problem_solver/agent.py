@@ -3,9 +3,9 @@ from problem_solver.triz_solver import triz_solver
 from problem_solver.alternative_solver import alternative_solver
 from problem_solver.schemas import ProblemSolverOutput
 
-# Define the Master Orchestrator Agent (Exposed as the entry point)
+# Define the Master Orchestrator Agent (Exposed as the entry point) 
 root_agent = Agent(
-    model="claude-sonnet-5",
+    model="gemini-3.5-flash",
     name="root_agent",
     output_schema=ProblemSolverOutput,
     instruction=(

@@ -14,7 +14,7 @@ connection_params = StreamableHTTPConnectionParams(
 )
 
 alternative_solver = Agent(
-    model="claude-sonnet-5",
+    model="gemini-3.5-flash",
     name="alternative_solver",
     output_schema=AlternativeSpecialistOutput,
     description="Specialist in First Principles design, standard engineering patterns, conventional design methodologies, and General Morphological Analysis (GMA).",
