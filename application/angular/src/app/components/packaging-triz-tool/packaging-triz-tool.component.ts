@@ -16,16 +16,16 @@ export class PackagingTrizToolComponent {
   private readonly svc = inject(ContradictionService);
 
   readonly step = this.svc.step;
-  readonly canAdvance = this.svc.canAdvanceToContradiction;
+  readonly canAdvance = this.svc.canAdvance;
   readonly liveMessage = computed(() => {
-    if (this.svc.generating()) return 'Generating investor report…';
-    if (this.svc.reportReady()) return 'Report ready.';
+    if (this.svc.generating()) return 'AI is analysing your problem…';
+    if (this.svc.reportReady()) return 'Analysis complete.';
     return '';
   });
 
   steps: { num: WizardStep; label: string }[] = [
     { num: 1, label: 'Problem' },
-    { num: 2, label: 'Report' }
+    { num: 2, label: 'Analysis' }
   ];
 
   goToStep(step: WizardStep): void {

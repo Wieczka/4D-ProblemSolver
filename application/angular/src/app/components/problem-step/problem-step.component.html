@@ -1,20 +1,41 @@
-<section aria-labelledby="step1-heading">
-  <div class="eyebrow">Step 01 · Assigned inventive problem</div>
-  <h2 id="step1-heading" class="h1">Describe the problem</h2>
-  <p class="lede">Edit the brief below, or use it as given. The tool reformulates it as a TRIZ technical contradiction, then drafts an investor-ready report.</p>
+<section class="problem-section" aria-labelledby="step1-heading">
+  <div class="eyebrow">Step 01 · Problem Input</div>
+  <h2 id="step1-heading" class="h1">Describe your technical contradiction</h2>
+  <p class="lede">
+    Describe any engineering, design, or product problem. The AI will identify the contradiction,
+    apply TRIZ principles and first-principles thinking, then rank all solutions for you.
+  </p>
 
   <label for="problem-input" class="field-label">Problem statement</label>
   <textarea
     id="problem-input"
-    rows="8"
+    rows="9"
     class="textarea"
+    placeholder="e.g. We need stronger packaging to protect products in transit, but thicker materials increase cost and waste. How do we maximise protection while minimising material use and environmental impact?"
     [ngModel]="problemText()"
-    (ngModelChange)="onInput($event)"></textarea>
-  <div class="hint">Case study: protective packaging that must survive shipping and handling, then not persist as waste.</div>
+    (ngModelChange)="onInput($event)">
+  </textarea>
+
+  <div class="char-hint" [class.char-hint--warn]="problemText().length > 0 && problemText().trim().length < 10">
+    <span *ngIf="problemText().trim().length < 10 && problemText().length > 0">
+      Please describe the problem in more detail (at least 10 characters).
+    </span>
+    <span *ngIf="problemText().trim().length >= 10">
+      {{ problemText().trim().length }} characters · Ready to analyse
+    </span>
+    <span *ngIf="problemText().length === 0">
+      Describe a real technical contradiction to get the most accurate results.
+    </span>
+  </div>
 
   <div class="actions">
-    <button type="button" class="btn btn--primary" [disabled]="!canAdvance()" (click)="next()">
-      Reformulate as technical contradiction →
+    <button
+      id="analyse-btn"
+      type="button"
+      class="btn btn--primary"
+      [disabled]="!canAdvance()"
+      (click)="next()">
+      Analyse with AI →
     </button>
   </div>
 </section>

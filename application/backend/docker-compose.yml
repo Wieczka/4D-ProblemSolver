@@ -24,6 +24,24 @@ services:
       MCP_PORT: 8000
     ports:
       - "8000:8000"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - "-c"
+        - |
+          import urllib.request, urllib.error, sys
+          try:
+              r = urllib.request.urlopen('http://localhost:8000/health', timeout=4)
+              sys.exit(0 if r.status == 200 else 1)
+          except urllib.error.HTTPError as e:
+              sys.exit(0 if e.code == 503 else 1)
+          except Exception:
+              sys.exit(1)
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 120s
 
   gma-mcp-server:
     build:
@@ -49,8 +67,10 @@ services:
     ports:
       - "8081:8081"
     depends_on:
-      - mcp-server
-      - gma-mcp-server
+      mcp-server:
+        condition: service_healthy
+      gma-mcp-server:
+        condition: service_started
 
   backend:
     build:

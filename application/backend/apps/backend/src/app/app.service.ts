@@ -5,6 +5,7 @@ import { Prisma } from '@prisma/client';
 import { firstValueFrom } from 'rxjs';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class AppService {
@@ -39,7 +40,7 @@ export class AppService {
   // ==========================================
   async solveContradiction(dto: { problemDescription: string }) {
     const guestUserId = 'guest-user';
-    const defaultSessionId = 'global-session';
+    const defaultSessionId = `session-${crypto.randomUUID()}`;
 
     const adkUrl = `${this.adkAgentUrl}/run`;
 
@@ -96,7 +97,7 @@ export class AppService {
             const jsonObj = JSON.parse(cleanText);
 
             if (jsonObj && Array.isArray(jsonObj.triz_solutions)) {
-              // Map the parsed principles dynamically
+              // Map the parsed principles dynamically (kept for legacy principles field)
               parsedPrinciples = jsonObj.triz_solutions.map((sol: any) => {
                 const p = this.trizPrinciples.find((tp) => tp.id === sol.principle_id);
                 return {
@@ -106,20 +107,6 @@ export class AppService {
                 };
               });
 
-              // Reconstruct markdown response for backward compatibility
-              let formattedMarkdown = `## 🧩 TRIZ Inventive Solutions\n\n`;
-              for (const sol of jsonObj.triz_solutions) {
-                formattedMarkdown += `### Principle ${sol.principle_id}: ${sol.principle_name}\n`;
-                formattedMarkdown += `**Solution**: ${sol.solution_name}\n`;
-                formattedMarkdown += `${sol.description}\n\n`;
-              }
-              if (Array.isArray(jsonObj.alternative_solutions)) {
-                formattedMarkdown += `## ⚙️ Alternative Architectural/Engineering Solutions\n\n`;
-                for (const sol of jsonObj.alternative_solutions) {
-                  formattedMarkdown += `### ${sol.solution_name}\n`;
-                  formattedMarkdown += `${sol.description}\n\n`;
-                }
-              }
               if (jsonObj.decision_matrix) {
                 const dm = jsonObj.decision_matrix;
                 
@@ -136,31 +123,10 @@ export class AppService {
                     row.rank = idx + 1;
                   });
                 }
-
-                formattedMarkdown += `## 📊 Dynamic Decision Matrix\n\n`;
-                formattedMarkdown += `**Competing Parameters Identified**:\n`;
-                formattedMarkdown += `*   **Parameter A (Goal)**: ${dm.parameter_a}\n`;
-                formattedMarkdown += `*   **Parameter B (Cost/Constraint)**: ${dm.parameter_b}\n\n`;
-                formattedMarkdown += `| Solution Name | ${dm.parameter_a} (Weight 0.60) | ${dm.parameter_b} (Weight 0.40) | Weighted Suitability Index (WSI) | Rank |\n`;
-                formattedMarkdown += `| :--- | :---: | :---: | :---: | :---: |\n`;
-                if (Array.isArray(dm.rows)) {
-                  for (const row of dm.rows) {
-                    formattedMarkdown += `| ${row.solution_name} | ${row.score_a} | ${row.score_b} | ${Number(row.wsi).toFixed(2)} | ${row.rank} |\n`;
-                  }
-                }
-              }
-              if (Array.isArray(jsonObj.scoring_justifications)) {
-                formattedMarkdown += `\n## 🔍 Scoring Justifications\n\n`;
-                for (const just of jsonObj.scoring_justifications) {
-                  formattedMarkdown += `* ${just}\n`;
-                }
-              }
-              if (jsonObj.master_evaluation_synthesis) {
-                formattedMarkdown += `\n## ⚖️ Master Evaluation & Synthesis\n\n`;
-                formattedMarkdown += `${jsonObj.master_evaluation_synthesis}`;
               }
 
-              agentAdvice = formattedMarkdown;
+              // Store the raw JSON — the frontend renders structured output directly
+              agentAdvice = JSON.stringify(jsonObj);
             }
           } catch (jsonErr) {
             // Fallback: search raw text for any of the 40 principles dynamically

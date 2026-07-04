@@ -2,9 +2,7 @@ import os
 from google.adk import Agent
 from google.adk.tools.mcp_tool import McpToolset
 from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams
-from problem_solver.schemas import TrizSpecialistOutput
-
-# Fetch the URL of the TRIZ MCP Server (defaults to localhost:8000 for local dev)
+from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams# Fetch the URL of the TRIZ MCP Server (defaults to localhost:8000 for local dev)
 mcp_url = os.environ.get("MCP_SERVER_URL", "http://localhost:8000/mcp")
 
 # Define the connection parameters for Streamable HTTP transport
