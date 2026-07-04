@@ -47,6 +47,12 @@
       </p>
     </section>
 
+    <section class="report-section" *ngIf="r.aiAdvice || r.aiError">
+      <h4>AI assessment</h4>
+      <p class="hint" *ngIf="r.aiError">{{ r.aiError }}</p>
+      <p *ngIf="r.aiAdvice" style="white-space: pre-wrap;">{{ r.aiAdvice }}</p>
+    </section>
+
     <section class="report-section">
       <h4>Performance targets</h4>
       <p class="hint">Enter your team's lab targets — they'll appear in the report below.</p>

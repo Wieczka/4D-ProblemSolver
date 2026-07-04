@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "name": "Segmentation",
+    "description": "Divide an object into independent parts or increase its degree of segmentation."
+  },
+  {
+    "id": 2,
+    "name": "Taking Out",
+    "description": "Separate an interfering part or single out the only necessary part of an object."
+  },
+  {
+    "id": 3,
+    "name": "Local Quality",
+    "description": "Change an object's structure from uniform to non-uniform, making each part fulfill a useful function."
+  },
+  {
+    "id": 4,
+    "name": "Asymmetry",
+    "description": "Change the shape of an object from symmetrical to asymmetrical to improve functionality."
+  },
+  {
+    "id": 5,
+    "name": "Consolidation",
+    "description": "Bring similar objects closer to perform parallel operations or make operations contiguous."
+  },
+  {
+    "id": 6,
+    "name": "Universality",
+    "description": "Make a part or object perform multiple functions, eliminating the need for other parts."
+  },
+  {
+    "id": 7,
+    "name": "Nesting",
+    "description": "Place one object inside another or make one part pass through a cavity in another."
+  },
+  {
+    "id": 8,
+    "name": "Counterweight",
+    "description": "Compensate for the weight of an object by merging it with others that provide lift or interact with the environment."
+  },
+  {
+    "id": 9,
+    "name": "Prior Counteraction",
+    "description": "Replace an action with harmful effects with anti-actions to control these effects."
+  },
+  {
+    "id": 10,
+    "name": "Prior Action",
+    "description": "Perform required changes to an object beforehand to avoid problems during use."
+  },
+  {
+    "id": 11,
+    "name": "Cushion in advance",
+    "description": "Prepare emergency measures to compensate for the relatively low reliability of an object."
+  },
+  {
+    "id": 12,
+    "name": "Equipotentiality",
+    "description": "Change conditions to avoid the need for lifting or moving an object."
+  },
+  {
+    "id": 13,
+    "name": "Do it in Reverse",
+    "description": "Reverse the usual process or way to achieve the desired effect."
+  },
+  {
+    "id": 14,
+    "name": "Spheroidality",
+    "description": "Go from flat surfaces to spherical forms or use rollers, balls, spirals."
+  },
+  {
+    "id": 15,
+    "name": "Dynamicity",
+    "description": "Make objects or environments capable of changing to be useful under different conditions."
+  },
+  {
+    "id": 16,
+    "name": "Partial or Excessive Action",
+    "description": "If 100% of an object is hard to achieve, use a little less or a bit more to suffice."
+  },
+  {
+    "id": 17,
+    "name": "Transition into a New Dimension",
+    "description": "Use aspects of 3D space or other directions/multiples to solve a problem."
+  },
+  {
+    "id": 18,
+    "name": "Mechanical Vibration",
+    "description": "Use oscillations or resonances to improve processes."
+  },
+  {
+    "id": 19,
+    "name": "Periodic Action",
+    "description": "Replace continuous action with periodic ones or use pauses between impulses to save resources."
+  },
+  {
+    "id": 20,
+    "name": "Continuity of Useful Action",
+    "description": "Make all parts of an object work at full load, eliminating idle or intermittent actions."
+  },
+  {
+    "id": 21,
+    "name": "Rushing Through",
+    "description": "Conduct processes, or certain stages of processes, without intermediate steps."
+  },
+  {
+    "id": 22,
+    "name": "Convert Harm into Benefit",
+    "description": "Utilize harmful factors, particularly environmental, to achieve a positive effect."
+  },
+  {
+    "id": 23,
+    "name": "Feedback",
+    "description": "Introduce feedback to modify a process or enhance a reaction."
+  },
+  {
+    "id": 24,
+    "name": "Mediator",
+    "description": "Use an intermediate carrier or process to transfer or temporarily store energy."
+  },
+  {
+    "id": 25,
+    "name": "Self Service",
+    "description": "Allow objects to serve themselves by performing auxiliary helpful functions."
+  },
+  {
+    "id": 26,
+    "name": "Copying",
+    "description": "Use cheaper or simpler replicas of an object or process where less precision is needed."
+  },
+  {
+    "id": 27,
+    "name": "Disposable",
+    "description": "Replace expensive objects with inexpensive ones to reduce cost, even if it means a shorter lifespan."
+  },
+  {
+    "id": 28,
+    "name": "Replacement of Mechanical System",
+    "description": "Replace a mechanical means with a sensory (optical, acoustic, taste, or olfactory) method."
+  },
+  {
+    "id": 29,
+    "name": "Pneumatic or Hydraulic Construction",
+    "description": "Use gases and liquids to achieve or improve function instead of solid parts."
+  },
+  {
+    "id": 30,
+    "name": "Flexible Membranes or Thin Films",
+    "description": "Use flexible materials to replace traditional rigid materials."
+  },
+  {
+    "id": 31,
+    "name": "Porous Material",
+    "description": "Make an object porous or add porous elements to introduce a new effect (e.g., absorption)."
+  },
+  {
+    "id": 32,
+    "name": "Changing the Color",
+    "description": "Use color changes to improve the visibility of changes or indicate control processes."
+  },
+  {
+    "id": 33,
+    "name": "Homogeneity",
+    "description": "Make materials interacting with an object have similar physical properties to reduce problems."
+  },
+  {
+    "id": 34,
+    "name": "Rejecting and Regenerating Parts",
+    "description": "Make parts of an object that have fulfilled their functions easily recoverable or replaceable."
+  },
+  {
+    "id": 35,
+    "name": "Transformation of Properties",
+    "description": "Change an object's physical state (e.g., temperature, concentration, density) to improve its performance."
+  },
+  {
+    "id": 36,
+    "name": "Phase Transition",
+    "description": "Use phenomena occurring during phase transitions (e.g., volume changes, energy absorption/release)."
+  },
+  {
+    "id": 37,
+    "name": "Thermal Expansion",
+    "description": "Use thermal expansion or contraction of materials to move or reshape objects."
+  },
+  {
+    "id": 38,
+    "name": "Accelerated Oxidation",
+    "description": "Use strong oxidants to speed up a reaction or process."
+  },
+  {
+    "id": 39,
+    "name": "Inert Environment",
+    "description": "Perform a process in an inert atmosphere to prevent undesirable reactions or changes."
+  },
+  {
+    "id": 40,
+    "name": "CompositeStructures",
+    "description": "Use composite materials to achieve the optimal combination of properties not available in any single material."
+  }
+]

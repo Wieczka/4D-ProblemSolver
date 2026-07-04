@@ -31,4 +31,14 @@ export interface PackagingReport {
   conceptDescription: string;
   targets: PerformanceTargets;
   nextSteps: string[];
+  aiAdvice?: string;
+  aiError?: string;
+}
+
+/** Shape returned by the backend's POST /api/solve endpoint. */
+export interface SolveResponse {
+  id: string;
+  problemDescription: string;
+  principles: { id: number; name: string; description: string }[] | null;
+  advice: string;
 }

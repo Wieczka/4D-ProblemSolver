@@ -1,18 +1,29 @@
-import { Injectable, signal, computed } from '@angular/core';
-import { Contradiction, PackagingReport, PerformanceTargets, WizardStep } from '../models/report.model';
+import { Injectable, signal, computed, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { catchError, of } from 'rxjs';
+import {
+  Contradiction,
+  InventivePrinciple,
+  PackagingReport,
+  PerformanceTargets,
+  SolveResponse,
+  WizardStep
+} from '../models/report.model';
 
 /**
  * Owns wizard state (step, problem text, targets) and produces the
  * TRIZ contradiction + report content.
  *
- * The fixed case-study contradiction (TRIZ-14 Strength vs TRIZ-31
- * Object-generated harmful factors) is hard-coded for this brief.
- * To generalize to arbitrary problems, replace `buildContradiction()`
- * with a call out to a classification service / LLM prompt that maps
- * free text to a pair of the 39 TRIZ parameters.
+ * The case-study contradiction framing (TRIZ-14 Strength vs TRIZ-31
+ * Object-generated harmful factors) and concept copy stay fixed for this
+ * brief. The inventive principles and AI assessment are fetched from the
+ * backend's POST /api/solve endpoint, which runs the problem text through
+ * the ADK TRIZ agent.
  */
 @Injectable({ providedIn: 'root' })
 export class ContradictionService {
+  private readonly http = inject(HttpClient);
+
   readonly step = signal<WizardStep>(1);
   readonly problemText = signal<string>(
     'Packaging exists to protect products from damage during shipping, handling, and storage, which typically means using tough, moisture-resistant materials, often made of multi-layered composites or coatings. Once a product reaches its destination, that packaging becomes waste, and much of it is slow to biodegrade or difficult to recycle cleanly.'
@@ -21,9 +32,17 @@ export class ContradictionService {
   readonly generating = signal(false);
   readonly reportReady = signal(false);
 
+  private readonly aiPrinciples = signal<InventivePrinciple[] | null>(null);
+  private readonly aiAdvice = signal<string | null>(null);
+  private readonly aiError = signal<string | null>(null);
+
   readonly canAdvanceToContradiction = computed(() => this.problemText().trim().length > 0);
 
-  readonly contradiction = computed<Contradiction>(() => this.buildContradiction());
+  readonly contradiction = computed<Contradiction>(() => {
+    const base = this.buildContradiction();
+    const aiPrinciples = this.aiPrinciples();
+    return aiPrinciples?.length ? { ...base, principles: aiPrinciples } : base;
+  });
 
   readonly report = computed<PackagingReport | null>(() => {
     if (!this.reportReady()) return null;
@@ -38,7 +57,9 @@ export class ContradictionService {
         'Bench-test moisture barrier hold time under transit-representative humidity and drop cycles.',
         'Confirm home-compost and industrial-compost breakdown against target.',
         'Pilot with one SKU to compare unit cost and damage-rate against current packaging.'
-      ]
+      ],
+      aiAdvice: this.aiAdvice() ?? undefined,
+      aiError: this.aiError() ?? undefined
     };
   });
 
@@ -59,11 +80,31 @@ export class ContradictionService {
     this.step.set(2);
     this.generating.set(true);
     this.reportReady.set(false);
-    // Simulated generation latency; swap for a real API call.
-    setTimeout(() => {
-      this.generating.set(false);
-      this.reportReady.set(true);
-    }, 900);
+    this.aiPrinciples.set(null);
+    this.aiAdvice.set(null);
+    this.aiError.set(null);
+
+    this.http
+      .post<SolveResponse>('/api/solve', { problemDescription: this.problemText() })
+      .pipe(
+        catchError((err) => {
+          this.aiError.set('Could not reach the AI problem solver. Showing the reference case-study framing instead.');
+          console.error('POST /api/solve failed:', err);
+          return of(null);
+        })
+      )
+      .subscribe((res) => {
+        if (res) {
+          this.aiAdvice.set(res.advice || null);
+          if (res.principles?.length) {
+            this.aiPrinciples.set(
+              res.principles.map((p) => ({ number: p.id, name: p.name, rationale: p.description }))
+            );
+          }
+        }
+        this.generating.set(false);
+        this.reportReady.set(true);
+      });
   }
 
   private buildContradiction(): Contradiction {
