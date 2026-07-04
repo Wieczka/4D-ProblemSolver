@@ -14,7 +14,7 @@ connection_params = StreamableHTTPConnectionParams(
 )
 
 triz_solver = Agent(
-    model="claude-sonnet-5",
+    model="gemini-3.5-flash",
     name="triz_solver",
     output_schema=TrizSpecialistOutput,
     description="Specialist in identifying technical contradictions and querying the TRIZ matrix for inventive principles.",
