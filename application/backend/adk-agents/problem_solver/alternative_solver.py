@@ -3,7 +3,7 @@ from google.adk import Agent
 from problem_solver.schemas import AlternativeSpecialistOutput
 
 alternative_solver = Agent(
-    model="claude-sonnet-5",
+    model="gemini-3.5-flash",
     name="alternative_solver",
     output_schema=AlternativeSpecialistOutput,
     description="Specialist in First Principles design, standard engineering patterns, and conventional design methodologies.",
