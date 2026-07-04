@@ -1,44 +1,51 @@
 export type WizardStep = 1 | 2;
 
-export interface TrizParameter {
-  code: string;      // e.g. "TRIZ-14"
-  name: string;       // e.g. "Strength"
+export type ErrorKind = 'network' | 'server' | 'parse' | null;
+
+// ── Mirrors backend ProblemSolverOutput (schemas.py) ──────────────────────────
+
+export interface TrizSolution {
+  principle_id: number;
+  principle_name: string;
+  solution_name: string;
   description: string;
 }
 
-export interface InventivePrinciple {
-  number: number;
-  name: string;
-  rationale: string;
+export interface AlternativeSolution {
+  solution_name: string;
+  description: string;
 }
 
-export interface Contradiction {
-  improving: TrizParameter;
-  worsening: TrizParameter;
-  principles: InventivePrinciple[];
+export interface DecisionMatrixRow {
+  solution_name: string;
+  score_a: number;
+  score_b: number;
+  wsi: number;
+  rank: number;
 }
 
-export interface PerformanceTargets {
-  compostDays: number | null;
-  bioContentPct: number | null;
-  costDeltaPct: number | null;
+export interface DecisionMatrix {
+  parameter_a: string;
+  parameter_b: string;
+  rows: DecisionMatrixRow[];
 }
 
-export interface PackagingReport {
-  problemText: string;
-  contradiction: Contradiction;
-  conceptName: string;
-  conceptDescription: string;
-  targets: PerformanceTargets;
-  nextSteps: string[];
-  aiAdvice?: string;
-  aiError?: string;
+export interface SolveResult {
+  triz_solutions: TrizSolution[];
+  alternative_solutions: AlternativeSolution[];
+  decision_matrix: DecisionMatrix;
+  scoring_justifications: string[];
+  master_evaluation_synthesis: string;
 }
 
-/** Shape returned by the backend's POST /api/solve endpoint. */
+// ── Shape returned by the backend's POST /api/solve endpoint ─────────────────
+
 export interface SolveResponse {
   id: string;
   problemDescription: string;
-  principles: { id: number; name: string; description: string }[] | null;
+  /** JSON-stringified ProblemSolverOutput, built into markdown by backend */
   advice: string;
+  /** Extracted TRIZ principle IDs (legacy field, may be empty) */
+  principles: { id: number; name: string; description: string }[] | null;
+  createdAt?: string;
 }

@@ -1,0 +1,42 @@
+# Node
+**/node_modules
+npm-debug.log*
+.npm
+
+# Build outputs
+dist/
+.angular/
+.nx/
+nx.bat
+
+# Python / uv virtual envs
+**/.venv
+**/__pycache__
+**/*.pyc
+**/*.pyo
+.adk/
+*.db
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Editor & IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Misc
+.gemini/
+.claude/
+.agents/
+*.log

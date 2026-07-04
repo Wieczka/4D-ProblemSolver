@@ -2,9 +2,7 @@ import os
 from google.adk import Agent
 from google.adk.tools.mcp_tool import McpToolset
 from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams
-from problem_solver.schemas import TrizSpecialistOutput
-
-# Fetch the URL of the TRIZ MCP Server (defaults to localhost:8000 for local dev)
+from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams# Fetch the URL of the TRIZ MCP Server (defaults to localhost:8000 for local dev)
 mcp_url = os.environ.get("MCP_SERVER_URL", "http://localhost:8000/mcp")
 
 # Define the connection parameters for Streamable HTTP transport
@@ -16,7 +14,6 @@ connection_params = StreamableHTTPConnectionParams(
 triz_solver = Agent(
     model="gemini-3.5-flash",
     name="triz_solver",
-    output_schema=TrizSpecialistOutput,
     description="Specialist in identifying technical contradictions and querying the TRIZ matrix for inventive principles.",
     instruction=(
         "You are BuildWithAI's TRIZ specialist.\n\n"
@@ -24,7 +21,7 @@ triz_solver = Agent(
         "query the contradiction matrix using the browse_contradiction_matrix tool, and generate "
         "exactly the 3 best inventive software recommendations based on those principles.\n\n"
         "Be highly specific and refer to the specific TRIZ principle names and numbers.\n\n"
-        "Once you have completed generating the 3 recommendations, populate the output schema and transfer control back to the root orchestrator by calling `transfer_to_agent` with `agent_name='root_agent'`."
+        "Once you have completed generating the 3 recommendations, output them clearly in your response and transfer control back to the root orchestrator by calling `transfer_to_agent` with `agent_name='root_agent'`."
     ),
     tools=[
         McpToolset(connection_params=connection_params)
